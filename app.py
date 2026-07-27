@@ -12,6 +12,7 @@ import base64
 import json
 import os
 import sqlite3
+import urllib.request
 from io import BytesIO
 
 import gradio as gr
@@ -100,9 +101,12 @@ def artist(city: str) -> Image.Image:
         ),
         size="1024x1024",
         n=1,
-        response_format="b64_json",
     )
-    return Image.open(BytesIO(base64.b64decode(response.data[0].b64_json)))
+    data = response.data[0]
+    if getattr(data, "b64_json", None):
+        return Image.open(BytesIO(base64.b64decode(data.b64_json)))
+    with urllib.request.urlopen(data.url) as resp:
+        return Image.open(BytesIO(resp.read()))
 
 
 def talker(message: str) -> bytes:
