@@ -164,4 +164,4 @@ if __name__ == "__main__":
         raise SystemExit("OPENAI_API_KEY is not set. Copy .env.example to .env and add your key.")
     if not os.path.exists(DB_PATH):
         raise SystemExit(f"{DB_PATH} not found. Run `python init_db.py` first.")
-    build_ui().launch(inbrowser=True)
+    build_ui().launch(server_name="0.0.0.0", server_port=int(os.environ.get("PORT", 7860)))
