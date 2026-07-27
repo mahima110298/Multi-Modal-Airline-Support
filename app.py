@@ -23,7 +23,7 @@ from openai import OpenAI
 load_dotenv(override=True)
 
 CHAT_MODEL = "gpt-4.1-mini"
-IMAGE_MODEL = "dall-e-3"
+IMAGE_MODEL = "gpt-image-1"
 TTS_MODEL = "gpt-4o-mini-tts"
 TTS_VOICE = "onyx"
 DB_PATH = "prices.db"
