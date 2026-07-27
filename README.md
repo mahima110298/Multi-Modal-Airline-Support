@@ -1,6 +1,10 @@
 # FlightAI — Multimodal Airline Customer-Support Assistant
 
+> [Live demo](https://flightai-airline-support.onrender.com) (free-tier hosting — spins down after 15 min idle, first load can take ~30s to wake up).
+
 A conversational AI agent for a fictional airline ("FlightAI") that combines text, vision, and voice into a single Gradio app. Built on the OpenAI API with function calling for structured tool use.
+
+![FlightAI demo — chat, ticket lookup, destination image, and spoken reply](docs/demo.gif)
 
 ![FlightAI screenshot](docs/screenshot.png)
 
@@ -8,7 +12,7 @@ A conversational AI agent for a fictional airline ("FlightAI") that combines tex
 
 - **Conversational chat** — `gpt-4.1-mini` with a domain-specific system prompt
 - **Function / tool calling** — the model invokes a `get_ticket_price` tool that queries a local SQLite database
-- **Image generation** — `dall-e-3` renders a pop-art destination preview when a city is mentioned
+- **Image generation** — `gpt-image-1` renders a pop-art destination preview when a city is mentioned
 - **Text-to-speech** — `gpt-4o-mini-tts` speaks the assistant's reply aloud
 - **Custom UI** — Gradio `Blocks` layout wires chat, image, and audio outputs to a single agentic loop
 
@@ -23,7 +27,7 @@ user message ──► Gradio Blocks
                     │           └─► get_ticket_price(city)  ──► SQLite (prices.db)
                     │
                     ├─► talker(reply)  ──► OpenAI TTS  ──► audio out
-                    └─► artist(city)   ──► DALL·E 3   ──► image out
+                    └─► artist(city)   ──► gpt-image-1 ──► image out
 ```
 
 The chat loop keeps calling the model while it returns `finish_reason == "tool_calls"`, so multi-step tool use works automatically.
